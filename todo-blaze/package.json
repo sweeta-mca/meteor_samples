@@ -1,5 +1,5 @@
 {
-  "name": "meteor-app",
+  "name": "todo-blaze",
   "private": true,
   "scripts": {
     "start": "meteor run",
@@ -8,18 +8,13 @@
     "visualize": "meteor --production --extra-packages bundle-visualizer"
   },
   "dependencies": {
-    "@babel/runtime": "^7.20.7",
-    "autoprefixer": "^10.4.21",
-    "meteor-node-stubs": "^1.2.5",
-    "postcss": "^8.5.3",
-    "postcss-load-config": "^6.0.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "tailwindcss": "^4.0.14"
+    "@babel/runtime": "^7.23.5",
+    "jquery": "^3.7.1",
+    "meteor-node-stubs": "^1.2.12"
   },
   "meteor": {
     "mainModule": {
-      "client": "client/main.jsx",
+      "client": "client/main.js",
       "server": "server/main.js"
     },
     "testModule": "tests/main.js"
