@@ -3,6 +3,7 @@ import {Template} from 'meteor/templating';
 import './Login.html';
 
 
+
 Template.login.events({
     'submit .login-form' (e)    {
         e.preventDefault();

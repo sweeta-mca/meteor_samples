@@ -7,9 +7,9 @@ import {ReactiveDict} from 'meteor/reactive-dict';
 import './App.html';
 import './Task.js'
 import './Login.js';
-import { get } from 'jquery';
 
 
+const IS_LOADING_STRING = "isLoading";
 const HIDE_COMPLETED_STRING = 'hideCompleted';
 const getUser = () =>Meteor.user();
 const isUserLogged = () => !!getUser();
@@ -25,9 +25,14 @@ const getTaskFilter =() =>{
     return {userFilter, pendingOnlyFilter};
 }
 
-Template.mainContainer.onCreated( function mainContainerCreated(){
-    Template.instance.state = new ReactiveDict();
-})
+Template.mainContainer.onRendered( function mainContainerCreated(){
+    const instance = Template.instance;
+    instance.state = new ReactiveDict();
+    const handler = Meteor.subscribe('tasks');   
+    Tracker.autorun(() => {
+       Template.instance.state.set(IS_LOADING_STRING, !handler.ready());
+    });
+});
 
 Template.mainContainer.helpers({
     tasks (){     
@@ -61,7 +66,10 @@ Template.mainContainer.helpers({
     },
     getUser() {
         return  getUser();
-    }
+    },
+    isLoading() {
+        return Template.instance.state.get(IS_LOADING_STRING);
+      }
 });
 
 Template.mainContainer.events({
@@ -82,11 +90,15 @@ Template.form.events({
         const target = event.target;
         const text = target.text.value;
 
-        TasksCollection.insert({
+      /*  TasksCollection.insert({
             text, 
             userId: getUser()._id ,
             createdAt: new Date()
-        });
+        }); */
+
+     // Insert a task into the collection
+     Meteor.call('tasks.insert', text);
+
         target.text.value ="";
     }
  
